@@ -27,27 +27,28 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-### JetBrains
-# JetBrains IDE directory
-.idea/
-
 # CMake build directories
 cmake-build-*/
+
+# Maven output
+target/
 
 # File-based project format
 *.iws
 *.iml
 
-# IntelliJ build output
+# IDE specific
 out/
-
-### VS Code
-# VSCode settings (keep shared configuration)
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
 
 # Local History for Visual Studio Code
 .history/
