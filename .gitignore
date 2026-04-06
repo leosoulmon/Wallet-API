@@ -44,6 +44,7 @@ out/
 ### VS Code
 # VSCode settings (keep shared configuration)
 .vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -54,3 +55,15 @@ out/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Maven output
+target/
+
+# IDE specific
+.settings/
+.classpath
+.project
+
+# OS specific
+.DS_Store
+Thumbs.db
