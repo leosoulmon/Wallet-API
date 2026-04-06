@@ -1,9 +1,8 @@
 package com.wallet.infrastructure.web.controller;
 
 import com.wallet.application.usecase.CreateUserUseCase;
-import com.wallet.domain.entity.User;
-import com.wallet.domain.repository.AccountRepository;
-import com.wallet.domain.repository.UserRepository;
+import com.wallet.application.usecase.GetUserAccountUseCase;
+import com.wallet.application.usecase.GetUserUseCase;
 import com.wallet.infrastructure.web.dto.AccountResponse;
 import com.wallet.infrastructure.web.dto.CreateUserRequest;
 import com.wallet.infrastructure.web.dto.UserResponse;
@@ -19,34 +18,30 @@ import java.util.UUID;
 public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
-    private final UserRepository userRepository;
-    private final AccountRepository accountRepository;
+    private final GetUserUseCase getUserUseCase;
+    private final GetUserAccountUseCase getUserAccountUseCase;
 
     public UserController(CreateUserUseCase createUserUseCase,
-                          UserRepository userRepository,
-                          AccountRepository accountRepository) {
+                          GetUserUseCase getUserUseCase,
+                          GetUserAccountUseCase getUserAccountUseCase) {
         this.createUserUseCase = createUserUseCase;
-        this.userRepository = userRepository;
-        this.accountRepository = accountRepository;
+        this.getUserUseCase = getUserUseCase;
+        this.getUserAccountUseCase = getUserAccountUseCase;
     }
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
-        User user = createUserUseCase.execute(request.name(), request.email());
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromDomain(user));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UserResponse.fromDomain(createUserUseCase.execute(request.name(), request.email())));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable UUID userId) {
-        return userRepository.findById(userId)
-                .map(user -> ResponseEntity.ok(UserResponse.fromDomain(user)))
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(UserResponse.fromDomain(getUserUseCase.execute(userId)));
     }
 
     @GetMapping("/{userId}/account")
     public ResponseEntity<AccountResponse> getUserAccount(@PathVariable UUID userId) {
-        return accountRepository.findByUserId(userId)
-                .map(account -> ResponseEntity.ok(AccountResponse.fromDomain(account)))
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(AccountResponse.fromDomain(getUserAccountUseCase.execute(userId)));
     }
 }
