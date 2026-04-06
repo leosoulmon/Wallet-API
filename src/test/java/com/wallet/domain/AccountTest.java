@@ -46,7 +46,7 @@ class AccountTest {
     void debitExactBalanceResultsInZero() {
         account.credit(new BigDecimal("100.00"));
         account.debit(new BigDecimal("100.00"));
-        assertEquals(BigDecimal.ZERO, account.getBalance());
+        assertEquals(0, account.getBalance().compareTo(BigDecimal.ZERO));
     }
 
     @Test

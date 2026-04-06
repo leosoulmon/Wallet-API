@@ -72,7 +72,7 @@ class TransferFundsUseCaseTest {
 
         transferFundsUseCase.execute(sourceAccount.getId(), destinationAccount.getId(), new BigDecimal("500.00"));
 
-        assertEquals(BigDecimal.ZERO, sourceAccount.getBalance());
+        assertEquals(0, sourceAccount.getBalance().compareTo(BigDecimal.ZERO));
         assertEquals(new BigDecimal("500.00"), destinationAccount.getBalance());
     }
 
