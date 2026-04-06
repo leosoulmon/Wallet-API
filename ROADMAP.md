@@ -1,4 +1,4 @@
-Financial Wallet API: Development Roadmap
+# Financial Wallet API: Development Roadmap
 
 1. Project Scope
 The API must provide the following features:
