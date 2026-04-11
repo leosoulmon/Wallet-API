@@ -47,3 +47,20 @@ Your README.md is your first interview. Avoid "Study Project." Use:
 Financial Wallet API - Clean Architecture Implementation
 Goal: Demonstrating decoupled architecture, Domain-Driven Design (DDD) principles, and high-test coverage in a Java/Spring Boot environment.
 
+# Improvements pending
+Logging and Observability: Integrate Spring Boot Actuator and a structured logging framework (like Logback with JSON format) to demonstrate how the system would be monitored in a cloud-native environment.
+
+Idempotency: For financial transactions like deposits and transfers, implementing idempotency keys is a "No-BS" requirement to prevent double-processing if a network request is retried.
+
+# Critical Areas for Improvement
+To elevate this project from a demonstration of architecture to a production-ready system, consider the following enhancements:
+
+Automated Schema Management: Currently, the project relies on a manual SQL script (walletdb-creation.sql) executed via Docker. Integrating Flyway or Liquibase would automate database migrations, ensuring consistency across different environments and version control for the schema.
+
+Integration Testing: While JUnit 5 and Mockito cover unit tests, adding integration tests using Testcontainers would allow you to test the infrastructure layer (persistence and web) against a real PostgreSQL instance during the build process.
+
+Security Implementation: The API requires a password for sensitive operations (deposits, transfers), but the implementation details for hashing (e.g., BCrypt) and session management (e.g., JWT or OAuth2) are not highlighted. Implementing Spring Security would provide a robust framework for authentication and authorization.
+
+API Documentation: Adding SpringDoc OpenAPI (Swagger) would provide an interactive UI for testing endpoints and automatically generate documentation, which is essential for any public-facing or collaborative API.
+
+Validation: Ensure that the web layer utilizes @Valid and JSR-303/JSR-380 annotations for input DTOs to catch malformed data before it reaches the application layer.
