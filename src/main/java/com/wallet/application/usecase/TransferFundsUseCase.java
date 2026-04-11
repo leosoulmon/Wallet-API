@@ -23,7 +23,7 @@ public class TransferFundsUseCase {
     }
 
     @Transactional
-    public void execute(UUID sourceAccountId, UUID destinationAccountId, BigDecimal amount) {
+    public Account execute(UUID sourceAccountId, UUID destinationAccountId, BigDecimal amount) {
         if (sourceAccountId.equals(destinationAccountId)) {
             throw new IllegalArgumentException("Source and destination accounts must be different");
         }
@@ -52,5 +52,7 @@ public class TransferFundsUseCase {
                 amount,
                 "Transfer from account " + sourceAccountId
         ));
+
+        return source;
     }
 }
