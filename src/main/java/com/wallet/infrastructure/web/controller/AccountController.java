@@ -4,16 +4,18 @@ import com.wallet.application.usecase.DepositFundsUseCase;
 import com.wallet.application.usecase.GetBalanceUseCase;
 import com.wallet.application.usecase.TransferFundsUseCase;
 import com.wallet.infrastructure.web.dto.AccountResponse;
+import com.wallet.infrastructure.web.dto.ApiResponse;
 import com.wallet.infrastructure.web.dto.DepositRequest;
 import com.wallet.infrastructure.web.dto.TransferRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping(value = "/api/accounts", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class AccountController {
 
     private final GetBalanceUseCase getBalanceUseCase;
@@ -34,17 +36,20 @@ public class AccountController {
     }
 
     @PostMapping("/{accountId}/deposit")
-    public ResponseEntity<AccountResponse> deposit(@PathVariable UUID accountId,
-                                                   @Valid @RequestBody DepositRequest request) {
-        return ResponseEntity.ok(AccountResponse.fromDomain(
-                depositFundsUseCase.execute(accountId, request.amount())
-        ));
+    public ResponseEntity<ApiResponse<AccountResponse>> deposit(@PathVariable UUID accountId,
+                                                                @Valid @RequestBody DepositRequest request) {
+        AccountResponse account = AccountResponse.fromDomain(
+                depositFundsUseCase.execute(accountId, request.amount(), request.password())
+        );
+        return ResponseEntity.ok(new ApiResponse<>("value deposited successfully", account));
     }
 
     @PostMapping("/{accountId}/transfer")
-    public ResponseEntity<Void> transfer(@PathVariable UUID accountId,
-                                         @Valid @RequestBody TransferRequest request) {
-        transferFundsUseCase.execute(accountId, request.destinationAccountId(), request.amount());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<AccountResponse>> transfer(@PathVariable UUID accountId,
+                                                                  @Valid @RequestBody TransferRequest request) {
+        AccountResponse account = AccountResponse.fromDomain(
+                transferFundsUseCase.execute(accountId, request.destinationAccountId(), request.amount(), request.password())
+        );
+        return ResponseEntity.ok(new ApiResponse<>("value transferred successfully", account));
     }
 }

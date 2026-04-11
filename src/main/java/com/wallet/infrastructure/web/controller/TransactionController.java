@@ -2,6 +2,7 @@ package com.wallet.infrastructure.web.controller;
 
 import com.wallet.application.usecase.GetTransactionHistoryUseCase;
 import com.wallet.infrastructure.web.dto.TransactionResponse;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping(value = "/api/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TransactionController {
 
     private final GetTransactionHistoryUseCase getTransactionHistoryUseCase;

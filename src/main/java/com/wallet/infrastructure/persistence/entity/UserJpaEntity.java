@@ -21,6 +21,9 @@ public class UserJpaEntity {
     private String email;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     public UserJpaEntity() {}
@@ -30,16 +33,18 @@ public class UserJpaEntity {
         entity.id = user.getId();
         entity.name = user.getName();
         entity.email = user.getEmail();
+        entity.password = user.getPassword();
         entity.createdAt = user.getCreatedAt();
         return entity;
     }
 
     public User toDomain() {
-        return new User(id, name, email, createdAt);
+        return new User(id, name, email, password, createdAt);
     }
 
     public UUID getId() { return id; }
     public String getName() { return name; }
     public String getEmail() { return email; }
+    public String getPassword() { return password; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 }
