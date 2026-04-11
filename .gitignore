@@ -49,6 +49,7 @@ out/
 .settings/
 .classpath
 .project
+.claude/
 
 # Local History for Visual Studio Code
 .history/
