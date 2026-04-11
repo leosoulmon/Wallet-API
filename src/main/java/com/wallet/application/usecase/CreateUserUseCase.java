@@ -19,11 +19,11 @@ public class CreateUserUseCase {
     }
 
     @Transactional
-    public User execute(String name, String email) {
+    public User execute(String name, String email, String password) {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already in use: " + email);
         }
-        User user = new User(name, email);
+        User user = new User(name, email, password);
         User saved = userRepository.save(user);
         Account account = new Account(saved.getId());
         accountRepository.save(account);
