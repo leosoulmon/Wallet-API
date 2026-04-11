@@ -39,7 +39,7 @@ public class AccountController {
     public ResponseEntity<ApiResponse<AccountResponse>> deposit(@PathVariable UUID accountId,
                                                                 @Valid @RequestBody DepositRequest request) {
         AccountResponse account = AccountResponse.fromDomain(
-                depositFundsUseCase.execute(accountId, request.amount())
+                depositFundsUseCase.execute(accountId, request.amount(), request.password())
         );
         return ResponseEntity.ok(new ApiResponse<>("value deposited successfully", account));
     }
@@ -48,7 +48,7 @@ public class AccountController {
     public ResponseEntity<ApiResponse<AccountResponse>> transfer(@PathVariable UUID accountId,
                                                                   @Valid @RequestBody TransferRequest request) {
         AccountResponse account = AccountResponse.fromDomain(
-                transferFundsUseCase.execute(accountId, request.destinationAccountId(), request.amount())
+                transferFundsUseCase.execute(accountId, request.destinationAccountId(), request.amount(), request.password())
         );
         return ResponseEntity.ok(new ApiResponse<>("value transferred successfully", account));
     }
