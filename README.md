@@ -2,11 +2,13 @@
 
 **Goal:** Demonstrating decoupled architecture, Domain-Driven Design (DDD) principles, and high test coverage in a Java/Spring Boot environment.
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/leosoulmon/Wallet-API)
+
 ## Tech Stack
 
 - **Java 17** + **Spring Boot 3.2**
 - **Spring Data JPA** + **PostgreSQL 15**
-- **Docker** (docker-compose for database)
+- **Docker** + **Docker Compose** (full stack)
 - **JUnit 5** + **Mockito**
 - **Maven**
 
@@ -50,29 +52,40 @@ POST/PUT endpoints return a response with `message` and `data`:
 }
 ```
 
-## Prerequisites
+## Zero-install options
+
+### Option A — GitHub Codespaces (run in the browser)
+
+Click **Open in GitHub Codespaces** above. The environment will automatically run `docker compose up --build` and forward port `8080`. No local install needed.
+
+
+## Prerequisites (local)
 
 - **Docker** installed and running
 
 ## Running
 
-1. Start the PostgreSQL database:
 ```bash
-docker-compose up -d
+docker compose up --build
 ```
 
-2. Create the database tables (first time only):
-```bash
-# From the walletdb directory, pipe the SQL script into the container
-cat ../walletdb/walletdb-creation.sql | docker exec -i walletdb psql -U postgres -d walletdb
-```
-
-3. Start the application:
-```bash
-./mvnw spring-boot:run
-```
+That's it. Docker Compose will:
+1. Start a PostgreSQL 15 container and initialize the schema
+2. Build and start the API container
+3. Wait for the database to be healthy before starting the API
 
 The API will be available at `http://localhost:8080`.
+
+> **Subsequent runs** (no code changes): `docker compose up`  
+> **Stop everything**: `docker compose down`  
+> **Reset database**: `docker compose down -v && docker compose up --build`
+
+## Running locally (without Docker for the app)
+
+```bash
+docker compose up -d postgres   # start only the DB
+./mvnw spring-boot:run          # run the app on the host
+```
 
 ## Running Tests
 

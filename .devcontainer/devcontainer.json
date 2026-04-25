@@ -1,0 +1,18 @@
+{
+  "name": "Wallet API",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true"
+    }
+  },
+  "postCreateCommand": "docker compose up --build -d",
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Wallet API",
+      "onAutoForward": "notify"
+    }
+  }
+}
