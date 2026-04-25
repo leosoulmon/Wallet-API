@@ -11,6 +11,7 @@
 - **Docker** + **Docker Compose** (full stack)
 - **JUnit 5** + **Mockito**
 - **Maven**
+- **springdoc-openapi 2.5** (Swagger UI + OpenAPI 3.0)
 
 ## Architecture
 
@@ -79,6 +80,24 @@ The API will be available at `http://localhost:8080`.
 > **Subsequent runs** (no code changes): `docker compose up`  
 > **Stop everything**: `docker compose down`  
 > **Reset database**: `docker compose down -v && docker compose up --build`
+
+## API Documentation (Swagger)
+
+Once the application is running, the following endpoints are available:
+
+| URL | Description |
+|-----|-------------|
+| `http://localhost:8080/swagger-ui.html` | Interactive Swagger UI — browse and test all endpoints in the browser |
+| `http://localhost:8080/v3/api-docs` | Raw OpenAPI 3.0 JSON spec |
+
+### Using Swagger UI
+
+1. Start the application with `docker compose up --build`
+2. Open `http://localhost:8080/swagger-ui.html` in your browser
+3. Expand any endpoint group (`user-controller`, `account-controller`, `transaction-controller`)
+4. Click an endpoint → **Try it out** → fill in the fields → **Execute**
+
+> The JSON spec at `/v3/api-docs` can be imported directly into Postman, Insomnia, or any OpenAPI-compatible tool.
 
 ## Running locally (without Docker for the app)
 
